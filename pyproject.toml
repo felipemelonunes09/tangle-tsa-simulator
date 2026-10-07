@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tangle-sim"
+version = "0.7.0"
+description = "Simulador cientifico reprodutivel de TSAs para uma abstracao da Tangle/IOTA 1.0"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "numpy==2.4.6",
+  "PyYAML==6.0.3",
+  "matplotlib==3.10.9",
+  "pandas==2.3.3",
+  "pyarrow==25.0.0",
+  "scipy==1.16.3",
+]
+
+[project.optional-dependencies]
+test = ["pytest==9.0.3", "hypothesis==6.138.15"]
+
+[project.scripts]
+tangle-sim = "tangle_sim.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"

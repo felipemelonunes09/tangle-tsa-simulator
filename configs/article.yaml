@@ -1,0 +1,109 @@
+schema_version: 1
+experiment_id: v15-progressive-stress-to-failure
+run_class: exploratory_progressive_attack_stress
+root_seed: 20250701
+replicates: 10
+workers: 8
+algorithms:
+  names: [urts, mcmc, sb_wrw]
+  mcmc:
+    alpha: 0.1
+    alpha_by_scenario:
+      PACTCare: 2.25
+      TLIP: 0.1
+      ElaadNL: 0.1
+    entry_point_policy: genesis
+    entry_point_depth_seconds: 0.0
+    max_walk_steps: 10000
+    max_tip_retries: 4
+  sb_wrw:
+    conformance: operational_reproduction
+    sector_assignment: regular_grid
+    sector_distance: manhattan
+    locality_policy: nearest_nonempty_ring
+    alpha: same_as_mcmc
+    max_walk_steps: 10000
+    max_tip_retries: 4
+    endpoint_fallback: nearest_ring_weighted_without_replacement
+    age_bias: disabled
+    continuous_distance_bias: disabled
+simulation:
+  warmup_seconds: 5.0
+  measurement_seconds: 25.0
+  drain_seconds: 5.0
+  abandonment_age_seconds: 5.0
+  confirmation_threshold: 0.95
+  confidence_samples: 200
+attack:
+  enabled: true
+  attacker_rate_fraction: 0.36
+  attacker_rate_fraction_schedule:
+    - after_seconds: 60.0
+      fraction: 0.70
+    - after_seconds: 75.0
+      fraction: 0.85
+  attacker_rate_semantics: total_issuance_share
+  attacker_rate_profile: workload_matched
+  attacker_issuer_policy: topology_proportional
+  attacker_attachment_delay_policy: scenario_lognormal
+  private_build_seconds: 5.0
+  private_build_seconds_by_scenario:
+    TLIP: 15.0
+    ElaadNL: 15.0
+  attack_observation_seconds: 110.0
+  fraud_confidence_threshold: 0.95
+  confidence_stability_seconds: 2.0
+  confidence_check_interval_seconds: 0.5
+  confidence_samples: 100
+  fraud_detection_mode: periodic
+  parasite_chain_strategy: tsa_adaptive_v2
+  sector_merge_interval: 2
+  sector_merge_interval_by_scenario:
+    TLIP: 8
+    ElaadNL: 16
+  parasite_root_policy: visible_tips
+  continue_attacker_after_release: true
+  stop_after_fraud_consolidation: true
+  require_honest_confidence_below_complement: true
+statistics:
+  bootstrap_samples: 10000
+  confidence_level: 0.95
+  paired: true
+sensitivity:
+  enabled: false
+  load_multipliers: [0.5, 1.0, 2.0]
+  delay_multipliers: [0.5, 1.0, 2.0]
+  alphas: [0.0, 0.001, 0.01, 0.1, 2.25]
+  attacker_rate_fractions: [0.10, 0.20, 0.30, 0.36, 0.40, 0.70, 0.85]
+scenarios:
+  PACTCare:
+    issuers: 60
+    grid: [2, 3]
+    workload: poisson
+    rate: 4.0
+    delay_median: 0.60
+    delay_sigma: 0.35
+    sector_distribution: balanced
+  TLIP:
+    issuers: 240
+    grid: [3, 4]
+    workload: mmpp
+    low_rate: 8.0
+    high_rate: 24.0
+    low_mean_duration: 45.0
+    high_mean_duration: 15.0
+    delay_median: 0.60
+    delay_sigma: 0.45
+    sector_distribution: heterogeneous
+  ElaadNL:
+    issuers: 1000
+    grid: [4, 5]
+    workload: periodic_burst
+    background_rate: 20.0
+    burst_rate: 120.0
+    burst_seconds: 5.0
+    burst_period: 30.0
+    jitter_seconds: 0.10
+    delay_median: 0.50
+    delay_sigma: 0.30
+    sector_distribution: clustered

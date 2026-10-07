@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "Se você utilizar este simulador, cite o software e o artigo associado."
+title: "Tangle TSA Simulator"
+type: software
+authors:
+  - family-names: Melo
+    given-names: Felipe Nunes
+    orcid: "https://orcid.org/0009-0009-8578-664X"
+  - family-names: Rodrigues
+    given-names: Carlo K. da S.
+    orcid: "https://orcid.org/0000-0003-1231-6953"
+version: 0.7.0
+date-released: 2026-10-02
+abstract: >-
+  Simulador científico reprodutível de algoritmos de seleção de pontas para
+  uma abstração histórica da Tangle/IOTA 1.0.
