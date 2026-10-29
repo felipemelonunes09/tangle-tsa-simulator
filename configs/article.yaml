@@ -9,7 +9,7 @@ algorithms:
   mcmc:
     alpha: 0.1
     alpha_by_scenario:
-      PACTCare: 2.25
+      PACTCare: 0.1
       TLIP: 0.1
       ElaadNL: 0.1
     entry_point_policy: genesis
